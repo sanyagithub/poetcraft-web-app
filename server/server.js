@@ -15,7 +15,7 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(cors({
-    origin: 'http://localhost:3002', // Allow only your frontend domain
+    origin: ['http://localhost:3002', 'https://main.d1sm1v8tqhmump.amplifyapp.com'], // Allow only your frontend domain
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed methods
     allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
     credentials: true // Allow cookies and credentials
