@@ -1,0 +1,13 @@
+branch-defaults:
+  main:
+    environment: poetcraft-env
+environment-defaults:
+  poetcraft-env:
+    branch: null
+    repository: null
+global:
+  application_name: poetcraft
+  default_ec2_keyname: null
+  default_platform: Node.js 20
+  default_region: us-west-2
+  sc: git
