@@ -1,0 +1,217 @@
+.stress-checker-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.stress-checker-content {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.stress-checker-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.stress-checker-header h1 {
+    font-size: 2.4rem;
+    color: #583c87;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: #666;
+}
+
+.muse-helper {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.muse-image {
+    width: 200px;
+    height: auto;
+    margin-bottom: 15px;
+}
+
+
+.stress-form {
+    margin-bottom: 30px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 1.2rem;
+    color: #444;
+    margin-bottom: 10px;
+}
+
+.word-input {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.3rem;
+    border: 2px solid #e6e1f2;
+    border-radius: 8px;
+    transition: border-color 0.3s ease;
+}
+
+.word-input:focus {
+    border-color: #8b75b4;
+    outline: none;
+}
+
+.check-button {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.2rem;
+    background-color: #8b75b4;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.check-button:hover:not(:disabled) {
+    background-color: #7b63a8;
+}
+
+.check-button:disabled {
+    background-color: #c5b6e0;
+    cursor: not-allowed;
+}
+
+.result-section {
+    margin-top: 40px;
+    padding: 30px;
+    background: #f8f6fc;
+    border-radius: 15px;
+}
+
+.result-section h2 {
+    font-size: 1.8rem;
+    color: #583c87;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.syllable-display {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.syllable {
+    text-align: center;
+    padding: 15px;
+    background: white;
+    border-radius: 10px;
+    min-width: 80px;
+}
+
+.syllable-text {
+    display: block;
+    font-size: 1.4rem;
+    margin-bottom: 5px;
+}
+
+.stress-marker {
+    display: block;
+    font-size: 1.6rem;
+    color: #8b75b4;
+}
+
+.pattern-info {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #666;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 30px;
+    color: #8b75b4;
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+.error-message {
+    padding: 15px;
+    background-color: #fde8e8;
+    color: #c81e1e;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.syllable.primary-stress {
+    background: #f8f6fc;
+    border: 2px solid #8b75b4;
+}
+
+.syllable.secondary-stress {
+    background: #f8f6fc;
+    border: 2px dashed #8b75b4;
+}
+
+.syllable.unstressed {
+    background: white;
+    border: 2px solid #e6e1f2;
+}
+
+.stress-legend {
+    margin-top: 30px;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    border: 2px solid #e6e1f2;
+}
+
+.stress-legend h3 {
+    font-size: 1.2rem;
+    color: #583c87;
+    margin-bottom: 15px;
+}
+
+.stress-legend ul {
+    list-style: none;
+    padding: 0;
+}
+
+.stress-legend li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    color: #444;
+}
+
+.legend-marker {
+    display: inline-block;
+    font-size: 1.4rem;
+    color: #8b75b4;
+    width: 30px;
+    text-align: center;
+}
+
+.result-section {
+    margin-top: 40px;
+    padding: 30px;
+    background: #f8f6fc;
+    border-radius: 15px;
+}
