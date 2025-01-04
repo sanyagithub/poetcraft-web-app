@@ -31,7 +31,7 @@ function Login() {
         setError("");
 
         try {
-            const response = await axios.post("http://poetcraft-env.eba-yy3e2r3a.us-west-2.elasticbeanstalk.com/api/auth/login", {
+            const response = await axios.post("https://poetcraft.org/api/auth/login", {
                 username: formData.username,
                 password: formData.password,
             });

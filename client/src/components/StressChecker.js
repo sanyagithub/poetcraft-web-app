@@ -17,7 +17,7 @@ function StressChecker() {
         setResult(null);
 
         try {
-            const response = await axios.get(`http://poetcraft-env.eba-yy3e2r3a.us-west-2.elasticbeanstalk.com/api/stress-check/${encodeURIComponent(word)}`);
+            const response = await axios.get(`https://poetcraft.org/api/stress-check/${encodeURIComponent(word)}`);
 
             // Transform the data for display
             const syllableData = response.data.map(item => ({
