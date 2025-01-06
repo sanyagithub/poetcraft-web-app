@@ -31,7 +31,7 @@ function Login() {
         setError("");
 
         try {
-            const response = await axios.post("https://www.poetcraft.org/api/auth/login", {
+            const response = await axios.post("https://api.poetcraft.org/api/auth/login", {
                 username: formData.username,
                 password: formData.password,
             });
