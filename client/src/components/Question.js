@@ -30,7 +30,7 @@ function Question({ videoId, question, onSubmit }) {
         setAnswerState(prev => ({ ...prev, isSubmitting: true, error: null }));
 
         try {
-            const response = await axios.post('https://www.poetcraft.org/api/answers/submit', {
+            const response = await axios.post('https://api.poetcraft.org/api/answers/submit', {
                 username,
                 videoId,
                 answer: answerState.text.trim()
@@ -58,7 +58,7 @@ function Question({ videoId, question, onSubmit }) {
     const loadCommunityAnswers = async () => {
         setLoadingAnswers(true);
         try {
-            const response = await axios.get(`https://www.poetcraft.org/api/answers/${videoId}`);
+            const response = await axios.get(`https://api.poetcraft.org/api/answers/${videoId}`);
             setCommunityAnswers(response.data);
         } catch (error) {
             console.error("Error loading community answers:", error);

@@ -28,7 +28,7 @@ function SignUp() {
 
         try {
             // Make API call to register endpoint
-            const response = await axios.post("https://www.poetcraft.org/api/auth/register", {
+            const response = await axios.post("https://api.poetcraft.org/api/auth/register", {
                 username: formData.username,
                 password: formData.password,
             });
@@ -36,7 +36,7 @@ function SignUp() {
             if (response.data) {
                 // Registration successful
                 // Now login the user automatically
-                const loginResponse = await axios.post("https://www.poetcraft.org/api/auth/login", {
+                const loginResponse = await axios.post("https://api.poetcraft.org/api/auth/login", {
                     username: formData.username,
                     password: formData.password,
                 });
