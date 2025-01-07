@@ -17,7 +17,7 @@ function StressChecker() {
         setResult(null);
 
         try {
-            const response = await axios.get(`https://api.poetcraft.org/api/stress-check/${encodeURIComponent(word)}`);
+            const response = await axios.get(`https://api.poetcraft.org/api/stress-check/${encodeURIComponent(word.toLowerCase())}`);
 
             // Transform the data for display
             const syllableData = response.data.map(item => ({
