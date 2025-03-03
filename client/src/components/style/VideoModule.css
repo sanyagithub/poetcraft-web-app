@@ -415,6 +415,105 @@ video::cue {
     transform: translateY(-2px);
 }
 
+.module-button.locked {
+    color: #888;
+    cursor: pointer;
+    position: relative;
+    background-color: #f0f0f0;
+    border-left: 4px solid #ccc;
+}
+
+.module-button.locked:hover {
+    background-color: #e5e5e5;
+}
+
+.lock-icon {
+    margin-right: 8px;
+    font-size: 14px;
+}
+
+/* Signup prompt styling */
+.signup-prompt {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin: 20px 0;
+    text-align: center;
+}
+
+.prompt-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.feature-list {
+    text-align: left;
+    margin: 20px auto;
+    max-width: 450px;
+    padding-left: 20px;
+}
+
+.feature-list li {
+    margin-bottom: 12px;
+    list-style-type: none;
+}
+
+.offer-price {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin: 20px 0;
+    color: #4a6f8a;
+}
+
+.signup-button {
+    background-color: #4a6f8a;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 10px 0;
+}
+
+.signup-button:hover {
+    background-color: #385a75;
+}
+
+.small-text {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 15px;
+}
+
+/* Preview ending banner */
+.preview-ending {
+    background-color: #f5f0f9;
+    border-left: 4px solid #8b75b4;
+    padding: 20px;
+    margin: 30px 0;
+    border-radius: 4px;
+}
+
+.signup-button-small {
+    background-color: #6a4c93;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+.signup-button-small:hover {
+    background-color: #5a3d83;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
     .module-container {
@@ -439,6 +538,7 @@ video::cue {
     .control-button {
         width: 100%;
     }
+
 }
 /*// Helper function for VideoModule*/
 /*   function getModuleTitle(moduleNumber) {*/
