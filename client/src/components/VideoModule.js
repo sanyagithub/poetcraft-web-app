@@ -178,10 +178,10 @@ function VideoModule() {
                         {/*    />*/}
                         {/*</div>*/}
 
-                        {selectedModule === 2 && (
+                        {selectedModule <= 2 && (
                             <div className="preview-ending">
                                 <h3>Ready to master metrical poetry?</h3>
-                                <p>You've completed the free preview lessons! Continue your poetry journey by joining our May 2025 founding cohort.</p>
+                                <p>Continue your poetry journey by joining our May 2025 founding cohort.</p>
                                 <button
                                     className="signup-button-small"
                                     onClick={() => setShowSignupPrompt(true)}
