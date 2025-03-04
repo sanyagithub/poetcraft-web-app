@@ -9,13 +9,12 @@ function StressChecker() {
     const [result, setResult] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const [retrying, setRetrying] = useState(false);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        setError('');
-        setResult(null);
+    const MAX_RETRIES = 3;
+    const RETRY_DELAY = 1000; // 1 second delay between retries
 
+    const fetchWordStress = async (retryCount = 0) => {
         try {
             const response = await axios.get(`https://api.poetcraft.org/api/stress-check/${encodeURIComponent(word.toLowerCase())}`);
 
@@ -36,9 +35,43 @@ function StressChecker() {
                 }).join(' '),
                 word: word
             });
+
+            setRetrying(false);
+            return true;
         } catch (err) {
-            setError('Unable to analyze the word. Please try again.');
-            console.error('Error:', err);
+            // Check if it's a network error and we haven't exceeded max retries
+            if ((err.message === 'Network Error' || err.code === 'ECONNABORTED') && retryCount < MAX_RETRIES) {
+                setRetrying(true);
+                setError(`Network issue detected. Retrying... (${retryCount + 1}/${MAX_RETRIES})`);
+
+                // Wait before retrying
+                await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
+
+                // Recursive retry with incremented counter
+                return fetchWordStress(retryCount + 1);
+            } else {
+                // Either not a network error or we've exceeded max retries
+                if (retryCount >= MAX_RETRIES) {
+                    setError('Maximum retry attempts reached. Please check your connection and try again.');
+                } else {
+                    setError('Unable to analyze the word. Please try again.');
+                }
+                console.error('Error:', err);
+                setRetrying(false);
+                return false;
+            }
+        }
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setError('');
+        setResult(null);
+        setRetrying(false);
+
+        try {
+            await fetchWordStress();
         } finally {
             setLoading(false);
         }
@@ -60,6 +93,11 @@ function StressChecker() {
         }
     };
 
+    const handleRetry = () => {
+        setLoading(true);
+        setError('');
+        fetchWordStress().finally(() => setLoading(false));
+    };
 
     const renderResults = () => {
         if (!result) return null;
@@ -129,13 +167,22 @@ function StressChecker() {
                         className="check-button"
                         disabled={loading || !word.trim()}
                     >
-                        {loading ? 'Analyzing...' : 'Check Stress Pattern'}
+                        {loading ? (retrying ? 'Retrying...' : 'Analyzing...') : 'Check Stress Pattern'}
                     </button>
                 </form>
 
                 {error && (
                     <div className="error-message">
                         {error}
+                        {!retrying && error.includes('Maximum retry attempts') && (
+                            <button
+                                onClick={handleRetry}
+                                className="retry-button"
+                                disabled={loading}
+                            >
+                                Try Again
+                            </button>
+                        )}
                     </div>
                 )}
 
