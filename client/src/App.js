@@ -12,6 +12,7 @@ import {AuthProvider, useAuth} from './authContext';
 import "./App.css";
 import * as PropTypes from "prop-types";
 import StressChecker from "./components/StressChecker";
+import PoetryCompetitionPage from "./components/PoetryCompetitionPage";
 
 // ProtectedRoute component
 function ProtectedRoute({ children }) {
@@ -36,6 +37,7 @@ function App() {
                     <Route path="/" element={<VideoModule />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<SignUp />} />
+                    <Route path="/poetrycompetition" element={<PoetryCompetitionPage />}/>
                     {/* Protected routes for authenticated users */}
                     <Route
                         path="/module/:lessonId"
