@@ -1,5 +1,3 @@
-"use client"
-
 import { useEffect } from "react"
 import { Card, CardContent, Button, Divider, Typography, Box, Container, Grid, Stack } from "@mui/joy"
 import { CheckCircle, EmojiEvents, AccessTime, Celebration, School } from "@mui/icons-material"
