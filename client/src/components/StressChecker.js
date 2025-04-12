@@ -210,9 +210,9 @@ function StressChecker() {
                     <p className="subtitle">Enter a word to see its stressed and unstressed syllables</p>
                 </header>
 
-                <div className="muse-helper">
-                    <Muse type="reading" message="Let me help you understand how this word flows in poetry!" />
-                </div>
+                {/*<div className="muse-helper">*/}
+                {/*    <Muse type="reading" message="Let me help you understand how this word flows in poetry!" />*/}
+                {/*</div>*/}
 
                 <form onSubmit={handleSubmit} className="stress-form">
                     <div className="input-group">

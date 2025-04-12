@@ -15,13 +15,27 @@ function Home() {
                 </header>
 
                 <main className="landing-main">
-                    <div className="muse-section">
-                        <Muse
-                            type="welcome"
-                            message="Hi! I'm Muse, your friendly poetry guide. Let's explore the beautiful world of poetry together!"
-                        />
-                    </div>
-
+                    <section className="about-section">
+                        <div className="about-content">
+                            <div className="image-container">
+                                <img
+                                    src="/annie-sanya.png"
+                                    alt="Annie Finch and co-founder"
+                                    className="annie-image"
+                                />
+                                <div className="decorative-element leaf-top"></div>
+                                <div className="decorative-element leaf-bottom"></div>
+                                <div className="decorative-element spiral-left"></div>
+                                <div className="decorative-element spiral-right"></div>
+                            </div>
+                            <div className="about-text">
+                                <h2>Meet the Annie Finch and Sanya Khurana</h2>
+                                <p>
+                                    PoetCraft was created by award-winning poet Annie Finch and technologist and storyteller Sanya Khurana, to bring the timeless beauty of metrical poetry to a wider world. Blending the art of verse with the power of technology, we’re united by a shared passion: to help you rediscover the hidden rhythms that have pulsed through poetry for centuries—subtle, stirring, and profoundly alive.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
 
                     <section className="journey-section">
                         <h2 className="journey-title">How to Begin Your Journey</h2>
@@ -47,15 +61,14 @@ function Home() {
                     </section>
 
                     <section className="cta-section">
-                        <Link to="/module" className="cta-button signup">Start Learning...</Link>
-                    {/*<div className="login-prompt">*/}
-                    {/*    Already have an account? <Link to="/login" className="login-link">Sign In</Link>*/}
-                    {/*</div>*/}
-                </section>
-            </main>
+                        <Link to="/login" className="cta-button signup">Start Learning...</Link>
+                    </section>
+                </main>
             </div>
+            <div className="background-decoration wave-1"></div>
+            <div className="background-decoration wave-2"></div>
         </div>
     );
 }
 
-export default Home
+export default Home;
