@@ -171,7 +171,6 @@
 /* Journey section */
 .journey-section {
     width: 100%;
-    margin-bottom: 60px;
 }
 
 .journey-title {
@@ -185,7 +184,6 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
-    margin-bottom: 40px;
 }
 
 .step-card {
@@ -223,7 +221,7 @@
 
 .cta-section {
     text-align: center;
-    padding: 20px 0;
+    padding: 40px 0;
 }
 
 .cta-button {
