@@ -42,7 +42,7 @@ function Login() {
                 localStorage.setItem("token", response.data.token);
                 localStorage.setItem("username", formData.username);
                 login(response.data.token, formData.username);
-                navigate("/"); // Redirect to home page
+                navigate("/moduleslist"); // Redirect to home page
             }
         } catch (err) {
             setError(
@@ -56,10 +56,10 @@ function Login() {
 
     return (
         <div className="auth-container">
-            <Muse
-                type="welcome"
-                message="Sign in to continue your poetry journey"
-            />
+            {/*<Muse*/}
+            {/*    type="welcome"*/}
+            {/*    message="Sign in to continue your poetry journey"*/}
+            {/*/>*/}
             <div className="auth-card">
                 <h2>Enter the details:</h2>
 
@@ -90,9 +90,9 @@ function Login() {
                             placeholder="Enter your password"
                             className="form-input"
                         />
-                        <Link to="/forgot-password" className="forgot-password">
-                            Forgot your password?
-                        </Link>
+                        {/*<Link to="/forgot-password" className="forgot-password">*/}
+                        {/*    Forgot your password?*/}
+                        {/*</Link>*/}
                     </div>
 
                     <button type="submit" className="auth-button">
@@ -100,12 +100,12 @@ function Login() {
                     </button>
                 </form>
 
-                <div className="auth-footer">
-                    <p>New to PoetCraft?</p>
-                    <Link to="/signup" className="signup-link">
-                        Create an Account
-                    </Link>
-                </div>
+                {/*<div className="auth-footer">*/}
+                {/*    <p>New to PoetCraft?</p>*/}
+                {/*    <Link to="/signup" className="signup-link">*/}
+                {/*        Create an Account*/}
+                {/*    </Link>*/}
+                {/*</div>*/}
             </div>
         </div>
     );

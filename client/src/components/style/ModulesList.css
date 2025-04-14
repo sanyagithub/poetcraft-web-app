@@ -1,0 +1,308 @@
+.modules-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 30px;
+    position: relative;
+    background-color: #FCFAFD; /* Very subtle lavender tint */
+}
+
+.modules-header {
+    text-align: center;
+    margin-bottom: 50px;
+    position: relative;
+}
+
+.modules-header h1 {
+    color: #B357C3;
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    position: relative;
+    display: inline-block;
+}
+
+.header-decoration {
+    margin-top: 15px;
+    padding: 5px 0;
+    position: relative;
+}
+
+.rhythm-pattern {
+    font-size: 1.2rem;
+    letter-spacing: 0.2em;
+    color: #B357C3;
+    opacity: 0.7;
+}
+
+.modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 30px;
+    position: relative;
+    z-index: 2;
+}
+
+.module-card {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+.module-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.module-card-header {
+    padding: 25px 25px 15px;
+    position: relative;
+    overflow: hidden;
+    min-height: 180px; /* Set a fixed minimum height for headers */
+    display: flex;
+    flex-direction: column;
+}
+
+.module-card-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background-color: #B357C3;
+    opacity: 0.6;
+}
+
+.module-card-header.fire::before {
+    background-color: #D4B483; /* Warm gold for fire */
+}
+
+.module-card-header.air::before {
+    background-color: #3A5683; /* Deep blue for air */
+}
+
+.module-card-header.earth::before {
+    background-color: #7A9E7E; /* Sage green for earth */
+}
+
+.module-card-header.water::before {
+    background-color: #6096BA; /* Blue for water */
+}
+
+.element-icon {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 1.8rem;
+    opacity: 0.6;
+}
+
+.pulse-icon {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.fire-icon {
+    animation: flicker 3s infinite alternate;
+}
+
+@keyframes flicker {
+    0%, 100% { opacity: 0.8; transform: scale(1.05); }
+    25% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 0.9; transform: scale(1.1); }
+    75% { opacity: 0.7; transform: scale(0.95); }
+}
+
+.air-icon, .water-icon {
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+.earth-icon {
+    animation: grow 4s ease-in-out infinite;
+}
+
+@keyframes grow {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+
+.module-card-header h2 {
+    color: #B357C3;
+    font-size: 1.7rem;
+    margin-bottom: 10px;
+    padding-right: 40px; /* Make room for the icon */
+}
+
+.rhythm-indicator {
+    display: inline-block;
+    margin-bottom: 15px;
+    padding: 5px 10px;
+    background-color: rgba(239, 196, 234, 0.3);
+    border-radius: 20px;
+}
+
+.module-description {
+    color: #555;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-top: auto; /* Push to bottom of flex container */
+}
+
+.image-container-module {
+    position: relative;
+    width: 100%;
+    height: 250px; /* Fixed height for all image containers */
+    overflow: hidden; /* Hide overflow */
+    background-color: #f9f5fa; /* Light background for images */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.annie-images {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    position: relative;
+    z-index: 3;
+}
+
+.module-card-content {
+    padding: 20px 25px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 200px; /* Set minimum height for content */
+}
+
+.lesson-count {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.lesson-icon {
+    font-size: 1.2rem;
+}
+
+.lesson-preview {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1; /* Allow list to grow */
+}
+
+.lesson-preview li {
+    color: #666;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+.module-card-footer {
+    padding: 20px 25px;
+    border-top: 1px solid #F0E6F2;
+}
+
+.view-module-button {
+    display: inline-block;
+    width: 100%;
+    padding: 12px 0;
+    background-color: #B357C3;
+    color: white;
+    text-align: center;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.view-module-button:hover {
+    background-color: #9D3DAB;
+    transform: translateY(-2px);
+}
+
+.arrow-icon {
+    margin-left: 8px;
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.view-module-button:hover .arrow-icon {
+    transform: translateX(3px);
+}
+
+.card-decoration {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 50px;
+    height: 50px;
+    opacity: 0.1;
+    pointer-events: none;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.fire .card-decoration {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50,10 C60,30 80,30 90,45 C95,80 80,90 50,90 C20,90 5,80 10,45 C20,30 40,30 50,10Z' fill='%23D4B483'/%3E%3C/svg%3E");
+}
+
+.air .card-decoration {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M10,30 C30,10 70,10 90,30 M10,50 C30,30 70,30 90,50 M10,70 C30,50 70,50 90,70' stroke='%233A5683' stroke-width='8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+.earth .card-decoration {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50,90 C20,90 10,60 10,50 C10,20 30,10 50,10 C70,10 90,20 90,50 C90,60 80,90 50,90Z M30,40 C40,20 60,20 70,40' fill='none' stroke='%237A9E7E' stroke-width='5'/%3E%3C/svg%3E");
+}
+
+.water .card-decoration {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M10,30 Q30,50 50,30 Q70,10 90,30 Q70,50 50,40 Q30,30 10,50' fill='none' stroke='%236096BA' stroke-width='5'/%3E%3C/svg%3E");
+}
+
+.base .card-decoration {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='none' stroke='%23B357C3' stroke-width='5'/%3E%3Ccircle cx='50' cy='50' r='30' fill='none' stroke='%23B357C3' stroke-width='3'/%3E%3Ccircle cx='50' cy='50' r='20' fill='none' stroke='%23B357C3' stroke-width='2'/%3E%3C/svg%3E");
+}
+
+.page-decoration {
+    position: absolute;
+    z-index: 1;
+}
+
+.wave-bottom {
+    bottom: -20px;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0 C150,90 350,0 500,50 C650,100 750,0 900,40 C1050,80 1150,20 1200,0 L1200,120 L0,120 Z' fill='%23F8F0F8' opacity='0.7'/%3E%3C/svg%3E");
+    background-size: cover;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .modules-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .modules-header h1 {
+        font-size: 2rem;
+    }
+}
