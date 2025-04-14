@@ -95,8 +95,8 @@ function Login() {
                         {/*</Link>*/}
                     </div>
 
-                    <button type="submit" className="auth-button">
-                        Log In
+                    <button type="submit" className="auth-button" disabled={loading}>
+                        {loading ? "Loading..." : "Log In"}
                     </button>
                 </form>
 
