@@ -106,6 +106,6 @@
 }
 
 .auth-button:disabled {
-    background-color: #D9ADE0;  /* Lighter shade of primary color */
+    opacity: 0.6;  /* Lighter shade of primary color */
     cursor: not-allowed;
 }
