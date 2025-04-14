@@ -172,4 +172,4 @@ function ModulesList() {
     )
 }
 
-export default ModulesList
+export default ModulesList;
