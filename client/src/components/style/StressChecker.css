@@ -215,3 +215,113 @@
     background: #f8f6fc;
     border-radius: 15px;
 }
+
+/* Add these styles to your existing StressChecker.css file */
+
+.pronunciation-options {
+    margin: 1rem 0 2rem;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    border: 2px solid #e6e1f2;
+}
+
+.pronunciation-options h3 {
+    font-size: 1.2rem;
+    color: #583c87;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.pronunciation-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.pronunciation-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 20px;
+    background-color: white;
+    border: 2px solid #e6e1f2;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #444;
+}
+
+.pronunciation-button:hover {
+    background-color: #f8f6fc;
+    border-color: #c5b6e0;
+}
+
+.pronunciation-button.selected {
+    background-color: #f8f6fc;
+    border-color: #8b75b4;
+    font-weight: 500;
+}
+
+.pattern-preview {
+    font-size: 1rem;
+    color: #8b75b4;
+    margin-top: 8px;
+}
+
+.phoneme-reference {
+    margin-top: 20px;
+    font-size: 1rem;
+}
+
+.phoneme-reference details {
+    padding: 15px;
+    background-color: white;
+    border-radius: 8px;
+    border: 2px solid #e6e1f2;
+}
+
+.phoneme-reference summary {
+    cursor: pointer;
+    color: #583c87;
+    font-weight: 500;
+}
+
+.phoneme-list {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.phoneme-item {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.phoneme-label {
+    font-weight: 500;
+    color: #583c87;
+}
+
+.phoneme-value {
+    font-family: monospace;
+    background-color: #f8f6fc;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #e6e1f2;
+}
+
+phoneme-count {
+    font-size: 0.9rem;
+    color: #666;
+    font-style: italic;
+}
+
+
+
+

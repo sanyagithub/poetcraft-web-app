@@ -19,14 +19,14 @@
 
 .auth-card h2 {
     font-size: 2.2rem;
-    color: #583c87;
+    color: #B357C3;  /* Updated to brand primary color */
     text-align: center;
     margin-bottom: 20px;
 }
 
 .auth-subtitle {
     font-size: 1.3rem;
-    color: #666;
+    color: #3A5683;  /* Updated to brand deep blue */
     text-align: center;
     margin-bottom: 30px;
 }
@@ -46,14 +46,14 @@
     width: 100%;
     padding: 15px;
     font-size: 1.2rem;
-    border: 2px solid #e6e1f2;
+    border: 2px solid #F0E6F2;  /* Lighter tint of primary color */
     border-radius: 8px;
     transition: border-color 0.3s ease;
     box-sizing: border-box;
 }
 
 .form-input:focus {
-    border-color: #9b8bb4;
+    border-color: #B357C3;  /* Updated to brand primary color */
     outline: none;
 }
 
@@ -61,7 +61,7 @@
     width: 100%;
     padding: 15px;
     font-size: 1.3rem;
-    background-color: #8b75b4;
+    background-color: #B357C3;  /* Updated to brand primary color */
     color: white;
     border: none;
     border-radius: 8px;
@@ -71,7 +71,7 @@
 }
 
 .auth-button:hover {
-    background-color: #7b63a8;
+    background-color: #9D3DAB;  /* Slightly darker shade of primary color */
 }
 
 .auth-footer {
@@ -81,7 +81,7 @@
 }
 
 .signup-link, .login-link {
-    color: #8b75b4;
+    color: #B357C3;  /* Updated to brand primary color */
     text-decoration: none;
     font-weight: bold;
 }
@@ -89,11 +89,12 @@
 .forgot-password {
     display: block;
     text-align: right;
-    color: #8b75b4;
+    color: #B357C3;  /* Updated to brand primary color */
     text-decoration: none;
     margin-top: 10px;
     font-size: 1.1rem;
 }
+
 .error-message {
     background-color: #fde8e8;
     color: #c81e1e;
@@ -105,6 +106,6 @@
 }
 
 .auth-button:disabled {
-    background-color: #c5b6e0;
+    background-color: #D9ADE0;  /* Lighter shade of primary color */
     cursor: not-allowed;
 }
