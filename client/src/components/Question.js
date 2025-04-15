@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./style/Question.css";
-import Muse from "./Muse";
 import axios from "axios";
 import { useAuth } from "../authContext";
 

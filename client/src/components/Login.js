@@ -3,7 +3,6 @@ import {Link, useNavigate} from "react-router-dom";
 import "./style/auth.css";
 import {useAuth} from "../authContext";
 import axios from "axios";
-import Muse from "./Muse";
 
 function Login() {
     const [formData, setFormData] = useState({
@@ -62,6 +61,19 @@ function Login() {
             {/*/>*/}
             <div className="auth-card">
                 <h2>Enter the details:</h2>
+
+                {/* Pre-launch access note */}
+                <div className="pre-launch-notice">
+                    <p>Poetcraft is currently in pre-launch phase.</p>
+                    <p>To get access credentials, please sign up for our soft launch offer ($99).</p>
+                    <a href="https://anniefinch.thrivecart.com/mastering-meter--expert-led-video-course/"
+                       className="payment-link"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        Get Access to Poetcraft
+                    </a>
+                    <p className="access-info">After payment, you'll receive login credentials via email within 24 hours.</p>
+                </div>
 
                 <form onSubmit={handleSubmit} className="auth-form">
                     <div className="form-group">

@@ -109,3 +109,48 @@
     opacity: 0.6;  /* Lighter shade of primary color */
     cursor: not-allowed;
 }
+
+/* Add these styles to your auth.css file */
+
+.pre-launch-notice {
+    background-color: #f8f4ff;
+    border: 1px solid #B357C3;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.pre-launch-notice p {
+    margin: 5px 0;
+    color: #3A5683;
+}
+
+.payment-link {
+    display: inline-block;
+    background-color: #B357C3;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin: 12px 0;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.payment-link:hover {
+    background-color: #9a3dab;
+    text-decoration: none;
+}
+
+.access-info {
+    font-size: 0.9em;
+    color: #7A9E7E;
+    font-style: italic;
+}
+
+.auth-error {
+    color: #ff4d4d;
+    margin-top: 15px;
+    text-align: center;
+}

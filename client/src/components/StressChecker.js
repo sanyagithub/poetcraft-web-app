@@ -2,7 +2,6 @@ import { useState } from "react"
 import axios from "axios"
 import { Link } from "react-router-dom"
 import "./style/StressChecker.css"
-import Muse from "./Muse"
 
 function StressChecker() {
     const [word, setWord] = useState("")

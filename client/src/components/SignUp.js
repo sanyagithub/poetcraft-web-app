@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {Link, useNavigate} from "react-router-dom";
 import "./style/auth.css";
 import axios from "axios";
-import Muse from "./Muse";
 
 function SignUp() {
     const navigate = useNavigate();
@@ -64,10 +63,6 @@ function SignUp() {
 
     return (
         <div className="auth-container">
-            <Muse
-                type="welcome"
-                message="Ready to continue your poetry journey? Join our community to access all lessons!"
-            />
             <div className="auth-card">
                 <h2>Enter the details:</h2>
                 {/*<p className="auth-subtitle">Begin your poetic journey with PoetCraft</p>*/}
