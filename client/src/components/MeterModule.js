@@ -321,9 +321,9 @@ function MeterModule({ moduleType }) {
             <div className="module-content">
                 <div className="content-header">
                     {/* Back to Lessons link integrated in header */}
-                    <Link to="/moduleslist" className="back-link">
-                        <span className="back-icon">←</span>
-                    </Link>
+                    {/*<Link to="/moduleslist" className="back-link">*/}
+                    {/*    <span className="back-icon">←</span>*/}
+                    {/*</Link>*/}
                     <h1>{data.questions[selectedModule]}</h1>
                     <p className="instructor-note">with Annie Finch, award-winning poet & mentor</p>
                     <div className="progress-bar" aria-label="Module progress">
