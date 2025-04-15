@@ -244,7 +244,7 @@ function StressChecker() {
 
                 {renderResults()}
 
-                <Link to="/" className="back-link">
+                <Link to="/moduleslist" className="back-link">
                     ← Back to Lessons
                 </Link>
             </div>
