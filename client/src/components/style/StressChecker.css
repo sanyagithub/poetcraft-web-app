@@ -139,7 +139,7 @@
 .back-link {
     display: inline-block;
     margin-top: 30px;
-    color: #B357C3; /* Updated to primary brand color */
+    color: var(--color-primary); /* Updated to primary brand color */
     text-decoration: none;
     font-size: 1.2rem;
 }
