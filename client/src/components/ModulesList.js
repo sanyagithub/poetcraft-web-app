@@ -93,7 +93,7 @@ function ModulesList() {
             path: "/dactylic-meter",
             icon: "water",
             element: "water",
-            image: "/annie-5.png",
+            image: "/annie-6.png",
             rhythm: "/ u u", /* dactyl */
             lessons: [
                 { id: 34, title: "Revision of Meter Definitions and Scansion" },

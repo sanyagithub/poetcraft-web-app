@@ -269,13 +269,23 @@ function MeterModule({ moduleType }) {
                     ))}
                 </div>
 
+                {/* Enhanced Tool Section with more prominence */}
                 <div className="tool-section">
-                    <Link to="/stress-checker" className="tool-button" title="Check the rhythm of your words">
-            <span className="tool-icon" aria-hidden="true">
-              📝
-            </span>
+                    <h3 className="tools-header">Craft Companions</h3>
+                    <Link to="/stress-checker" className="tool-button" title="Check the meter of your words">
+                        {/*<span className="tool-icon" aria-hidden="true">📝</span>*/}
                         Check Word Stress
                     </Link>
+                    <a
+                        href="https://www.classes.anniefinch.com/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="tool-button"
+                        title="Join Annie's Online Classes"
+                    >
+                        {/*<span className="tool-icon" aria-hidden="true">🎓</span>*/}
+                        Annie's Online Classes
+                    </a>
                 </div>
             </div>
 
@@ -345,6 +355,29 @@ function MeterModule({ moduleType }) {
                             )}
                         </div>
 
+
+                        {/*/!* Add Quick Access Tools banner *!/*/}
+                        {/*<div className="quick-access-tools">*/}
+                        {/*    <div className="tool-card">*/}
+                        {/*        <Link to="/stress-checker" className="quick-tool-link">*/}
+                        {/*            <span className="quick-tool-icon">📝</span>*/}
+                        {/*            <div className="quick-tool-info">*/}
+                        {/*                <h4>Check Word Stress</h4>*/}
+                        {/*                <p>Analyze the rhythm of your own poetry</p>*/}
+                        {/*            </div>*/}
+                        {/*        </Link>*/}
+                        {/*    </div>*/}
+                        {/*    <div className="tool-card">*/}
+                        {/*        <a href="https://www.classes.anniefinch.com/" target="_blank" rel="noopener noreferrer" className="quick-tool-link">*/}
+                        {/*            <span className="quick-tool-icon">🎓</span>*/}
+                        {/*            <div className="quick-tool-info">*/}
+                        {/*                <h4>Live Poetry Lessons</h4>*/}
+                        {/*                <p>Join Annie Finch's Online Classes</p>*/}
+                        {/*            </div>*/}
+                        {/*        </a>*/}
+                        {/*    </div>*/}
+                        {/*</div>*/}
+
                         <div className="module-controls">
                             <button
                                 className="control-button previous"
@@ -412,11 +445,19 @@ function MeterModule({ moduleType }) {
                         )}
                     </>
                 )}
-                {/* Add sticky navigation footer for mobile users */}
+                {/* Add sticky navigation footer for mobile users with enhanced tools */}
                 <div className="mobile-nav-footer">
                     <Link to="/moduleslist" className="back-link mobile-back">
                         <span className="back-icon">←</span> Back to Lessons
                     </Link>
+                    {/*<div className="mobile-tools">*/}
+                    {/*    <Link to="/stress-checker" className="mobile-tool-button">*/}
+                    {/*        <span className="tool-icon">📝</span>*/}
+                    {/*    </Link>*/}
+                    {/*    <a href="https://www.classes.anniefinch.com/" target="_blank" rel="noopener noreferrer" className="mobile-tool-button">*/}
+                    {/*        <span className="tool-icon">🎓</span>*/}
+                    {/*    </a>*/}
+                    {/*</div>*/}
                 </div>
             </div>
         </div>
