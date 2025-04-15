@@ -731,16 +731,16 @@ video::cue {
 }
 
 /* Mobile navigation footer */
-.mobile-nav-footer {
-    display: none;
-    position: sticky;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-    padding: 12px 16px;
-    z-index: 10;
-}
+/*.mobile-nav-footer {*/
+/*    display: none;*/
+/*    position: sticky;*/
+/*    bottom: 0;*/
+/*    left: 0;*/
+/*    width: 100%;*/
+/*    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);*/
+/*    padding: 12px 16px;*/
+/*    z-index: 10;*/
+/*}*/
 
 .mobile-back {
     display: flex;
