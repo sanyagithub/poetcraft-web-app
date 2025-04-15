@@ -274,7 +274,7 @@ function MeterModule({ moduleType }) {
                     <h3 className="tools-header">Craft Companions</h3>
                     <Link to="/stress-checker" className="tool-button" title="Check the meter of your words">
                         {/*<span className="tool-icon" aria-hidden="true">📝</span>*/}
-                        Check Word Stress
+                        Check Word Meter
                     </Link>
                     <a
                         href="https://www.classes.anniefinch.com/"
