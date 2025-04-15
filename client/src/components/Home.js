@@ -28,7 +28,7 @@ function Home() {
                                 <div className="decorative-element spiral-right"></div>
                             </div>
                             <div className="about-text">
-                                <h2>Meet the Annie Finch and Sanya Khurana</h2>
+                                <h2>Meet Annie Finch and Sanya Khurana</h2>
                                 <p>
                                     PoetCraft was created by award-winning poet Annie Finch and technologist and storyteller Sanya Khurana, to bring the timeless beauty of metrical poetry to a wider world. Blending the art of verse with the power of technology, we’re united by a shared passion: to help you rediscover the hidden rhythms that have pulsed through poetry for centuries—subtle, stirring, and profoundly alive.
                                 </p>
