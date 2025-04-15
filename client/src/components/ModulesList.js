@@ -52,7 +52,7 @@ function ModulesList() {
             path: "/iambic-meter",
             icon: "air",
             element: "air",
-            image: "/annie-3.png",
+            image: "/annie-4.png",
             rhythm: "u /", /* iamb */
             lessons: [
                 { id: 17, title: "Introduction to Meter of Air" },
@@ -71,7 +71,7 @@ function ModulesList() {
             description: "Ground your poetry in the solid Meter of Earth",
             path: "/trochaic-meter",
             icon: "earth",
-            image: "/annie-4.png",
+            image: "/annie-3.png",
             element: "earth",
             rhythm: "/ u", /* trochee */
             lessons: [
