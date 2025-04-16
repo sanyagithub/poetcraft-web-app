@@ -419,13 +419,15 @@ function MeterModule({ moduleType }) {
                 </span>
                                 Previous Lesson
                             </button>
-                            <button
-                                className={`control-button ${showLectureSheets ? "primary" : ""}`}
-                                onClick={toggleLectureSheets}
-                                title={showLectureSheets ? "Hide the lecture materials" : "View lecture materials"}
-                            >
-                                {showLectureSheets ? "Hide Lecture Materials" : "View Lecture Materials"}
-                            </button>
+                            {isAuthenticated && (
+                                <button
+                                    className={`control-button ${showLectureSheets ? "primary" : ""}`}
+                                    onClick={toggleLectureSheets}
+                                    title={showLectureSheets ? "Hide the lecture materials" : "View lecture materials"}
+                                >
+                                    {showLectureSheets ? "Hide Lecture Materials" : "View Lecture Materials"}
+                                </button>
+                            )}
                             <button
                                 className="control-button next"
                                 onClick={handleContinueClick}
