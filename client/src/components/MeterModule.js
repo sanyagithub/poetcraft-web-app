@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import {useEffect, useState} from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { useAuth } from "../authContext"
 import PoetcraftPromo from "./PoetcraftPromo"
@@ -202,6 +202,25 @@ function MeterModule({ moduleType }) {
     const [showSignupPrompt, setShowSignupPrompt] = useState(false)
     const [showLectureSheets, setShowLectureSheets] = useState(false)
     const [fade, setFade] = useState(false) // to trigger fade-out/fade-in effect
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
+    const [showModuleList, setShowModuleList] = useState(false)
+
+
+    useEffect(() => {
+        const handleResize = () => {
+            const mobile = window.innerWidth <= 768
+            setIsMobile(mobile)
+            if (!mobile) setShowModuleList(true) // Always show on desktop
+        }
+
+        window.addEventListener("resize", handleResize)
+
+        // Run once on mount to set correct state
+        handleResize()
+
+        return () => window.removeEventListener("resize", handleResize)
+    }, [])
+
 
     // Handle module change with a poetic fade transition
     const handleModuleChange = (moduleNumber) => {
@@ -249,7 +268,16 @@ function MeterModule({ moduleType }) {
                     </p>
                 </div>
 
-                <div className="module-list">
+                {isMobile && (
+                    <button
+                        className="toggle-module-list"
+                        onClick={() => setShowModuleList((prev) => !prev)}
+                    >
+                        {showModuleList ? "Hide Lessons ▲" : "Show Lessons ▼"}
+                    </button>
+                )}
+
+                <div className={`module-list ${isMobile && !showModuleList ? "collapsed" : ""}`}>
                     {Object.keys(data.videoSources).map((module) => (
                         <button
                             key={module}
@@ -260,21 +288,20 @@ function MeterModule({ moduleType }) {
                             <div className="module-text">
                                 <span className="module-title">{data.questions[Number(module)]}</span>
                                 {Number(module) > 1 && !isAuthenticated && (
-                                    <span className="lock-icon" aria-label="Login required">
-                    🔒
-                  </span>
+                                    <span className="lock-icon" aria-label="Login required">🔒</span>
                                 )}
                             </div>
                         </button>
                     ))}
                 </div>
 
+
                 {/* Enhanced Tool Section with more prominence */}
-                <div className="tool-section">
+                {!isMobile && (<div className="tool-section">
                     <h3 className="tools-header">Craft Companions</h3>
                     <Link to="/stress-checker" className="tool-button" title="Check the meter of your words">
                         {/*<span className="tool-icon" aria-hidden="true">📝</span>*/}
-                        Check Word Stress
+                        Check Word Meter
                     </Link>
                     <a
                         href="https://www.classes.anniefinch.com/"
@@ -287,14 +314,16 @@ function MeterModule({ moduleType }) {
                         Annie's Online Classes
                     </a>
                 </div>
+                    )}
+
             </div>
 
             <div className="module-content">
                 <div className="content-header">
                     {/* Back to Lessons link integrated in header */}
-                    <Link to="/moduleslist" className="back-link">
-                        <span className="back-icon">←</span>
-                    </Link>
+                    {/*<Link to="/moduleslist" className="back-link">*/}
+                    {/*    <span className="back-icon">←</span>*/}
+                    {/*</Link>*/}
                     <h1>{data.questions[selectedModule]}</h1>
                     <p className="instructor-note">with Annie Finch, award-winning poet & mentor</p>
                     <div className="progress-bar" aria-label="Module progress">
@@ -410,6 +439,8 @@ function MeterModule({ moduleType }) {
                             </button>
                         </div>
 
+
+
                         {showLectureSheets && (
                             <div className="module-notes slide-toggle">
                                 <h3>Lecture Materials</h3>
@@ -444,6 +475,23 @@ function MeterModule({ moduleType }) {
                             </div>
                         )}
                     </>
+                )}
+
+                {isMobile && (
+                    <div className="tool-section mobile-tool-section">
+                        <h3 className="tools-header">✨ Craft Companions</h3>
+                        <Link to="/stress-checker" className="tool-button">
+                            📝 &nbsp; Check Word Meter
+                        </Link>
+                        <a
+                            href="https://www.classes.anniefinch.com/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="tool-button"
+                        >
+                            🎓 &nbsp; Annie's Online Classes
+                        </a>
+                    </div>
                 )}
                 {/* Add sticky navigation footer for mobile users with enhanced tools */}
                 <div className="mobile-nav-footer">
