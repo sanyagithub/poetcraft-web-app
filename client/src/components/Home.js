@@ -1,9 +1,18 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, {useEffect} from "react";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import "./style/Home.css";
 
 function Home() {
     const navigate = useNavigate();
+    const location = useLocation();
+
+    useEffect(() => {
+        if (!window.gtag) return;
+
+        window.gtag("config", "G-B118D7BLD5", {
+            page_path: location.pathname + location.search,
+        });
+    }, [location]);
 
     return (
         <div className="landing-container">
