@@ -1,6 +1,6 @@
-import { useState } from "react"
+import {useEffect, useState} from "react"
 import axios from "axios"
-import { Link } from "react-router-dom"
+import {Link, useLocation} from "react-router-dom"
 import "./style/StressChecker.css"
 
 function StressChecker() {
@@ -13,6 +13,16 @@ function StressChecker() {
 
     const MAX_RETRIES = 3
     const RETRY_DELAY = 1000 // 1 second delay between retries
+
+    const location = useLocation();
+
+    useEffect(() => {
+        if (!window.gtag) return;
+
+        window.gtag("config", "G-B118D7BLD5", {
+            page_path: location.pathname + location.search,
+        });
+    }, [location]);
 
     const fetchWordStress = async (retryCount = 0) => {
         try {
