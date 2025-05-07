@@ -68,7 +68,7 @@ function StressChecker() {
     }
 
     const handleSubmit = async (e) => {
-        gtag("event", "stress_check", {
+        window.gtag("event", "stress_check", {
             event_category: "interaction",
             event_label: "Stress Checked",
         });

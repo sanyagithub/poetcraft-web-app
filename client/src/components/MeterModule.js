@@ -218,7 +218,6 @@ function MeterModule({ moduleType }) {
 
     const [selectedModule, setSelectedModule] = useState(1)
     const [videoError, setVideoError] = useState(false)
-    const [showSignupPrompt, setShowSignupPrompt] = useState(false)
     const [showLectureSheets, setShowLectureSheets] = useState(false)
     const [fade, setFade] = useState(false) // to trigger fade-out/fade-in effect
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
@@ -243,7 +242,7 @@ function MeterModule({ moduleType }) {
                 events: {
                     onStateChange: (event) => {
                         if (event.data === window.YT.PlayerState.PLAYING) {
-                            gtag('event', 'video_played', {
+                            window.gtag('event', 'video_played', {
                                 event_category: 'video',
                                 event_label: `${moduleType} - ${selectedModule}`,
                             })
@@ -453,10 +452,8 @@ function MeterModule({ moduleType }) {
                     </div>
                 </div>
 
-                {showSignupPrompt ? (
-                    <PoetcraftPromo/>
-                ) : (
-                    <>
+
+                <>
                         <div className={`video-container ${fade ? "fade-out" : "fade-in"}`}>
                             {videoError ? (
                                 <div className="video-error" role="alert">
@@ -606,7 +603,7 @@ function MeterModule({ moduleType }) {
                             </div>
                         )}
                     </>
-                )}
+
 
                 {isMobile && (
                     <div className="tool-section mobile-tool-section">
