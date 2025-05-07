@@ -1,10 +1,22 @@
-import React, { useState } from "react";
-import {Link, useNavigate} from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import "./style/auth.css";
 import {useAuth} from "../authContext";
 import axios from "axios";
 
 function Login() {
+
+    const location = useLocation();
+
+    useEffect(() => {
+        if (!window.gtag) return;
+
+        window.gtag("config", "G-B118D7BLD5", {
+            page_path: location.pathname + location.search,
+        });
+    }, [location]);
+
+
     const [formData, setFormData] = useState({
         username: "",
         password: "",
