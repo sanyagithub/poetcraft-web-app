@@ -25,6 +25,7 @@ function StressChecker() {
     }, [location]);
 
     const fetchWordStress = async (retryCount = 0) => {
+
         try {
             const response = await axios.get(
                 `https://api.poetcraft.org/api/stress-check/${encodeURIComponent(word.toLowerCase().trim())}`,
@@ -67,6 +68,10 @@ function StressChecker() {
     }
 
     const handleSubmit = async (e) => {
+        gtag("event", "stress_check", {
+            event_category: "interaction",
+            event_label: "Stress Checked",
+        });
         e.preventDefault()
         setLoading(true)
         setError("")

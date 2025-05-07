@@ -192,6 +192,25 @@ const moduleData = {
     },
 }
 
+// Add this configuration object at the top of the file, after the moduleData declaration
+const freeVideos = {
+    video: [1, 2],
+    iambic: [1],
+    anapestic: [1],
+    trochaic: [3],
+    dactylic: [2],
+}
+
+const trackEvent = (name, label, category = 'meter_module') => {
+    if (window.gtag) {
+        window.gtag('event', name, {
+            event_category: category,
+            event_label: label,
+        });
+    }
+};
+
+
 function MeterModule({ moduleType }) {
     const data = moduleData[moduleType]
     const { isAuthenticated } = useAuth()
@@ -205,6 +224,43 @@ function MeterModule({ moduleType }) {
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
     const [showModuleList, setShowModuleList] = useState(false)
 
+    useEffect(() => {
+        // Load YouTube API once
+        const tag = document.createElement("script")
+        tag.src = "https://www.youtube.com/iframe_api"
+        document.body.appendChild(tag)
+
+        // Cleanup on unmount
+        return () => {
+            document.body.removeChild(tag)
+        }
+    }, [])
+
+
+    useEffect(() => {
+        window.onYouTubeIframeAPIReady = () => {
+            const player = new window.YT.Player(`youtube-player`, {
+                events: {
+                    onStateChange: (event) => {
+                        if (event.data === window.YT.PlayerState.PLAYING) {
+                            gtag('event', 'video_played', {
+                                event_category: 'video',
+                                event_label: `${moduleType} - ${selectedModule}`,
+                            })
+                        }
+                    },
+                },
+            })
+        }
+    }, [selectedModule, moduleType])
+
+
+
+    useEffect(() => {
+        if (!isAuthenticated) {
+            setSelectedModule(freeVideos[moduleType][0])
+        }
+    }, [moduleType, isAuthenticated])
 
     useEffect(() => {
         const handleResize = () => {
@@ -225,13 +281,21 @@ function MeterModule({ moduleType }) {
     // Handle module change with a poetic fade transition
     const handleModuleChange = (moduleNumber) => {
         if (moduleNumber < 1 || moduleNumber > Object.keys(data.videoSources).length) return
+        const label = `${moduleType} - Module ${moduleNumber}`;
 
-        // Check if user is trying to access videos beyond the first one
-        if (moduleNumber > 1 && !isAuthenticated) {
+        // Check if the selected video is in the free videos list for this module type
+        const isVideoFree = freeVideos[moduleType]?.includes(moduleNumber)
+
+        // If video is not free and user is not authenticated, redirect to login
+        if (!isVideoFree && !isAuthenticated) {
+            trackEvent('locked_module_attempted', label);
             // Redirect to login page
             navigate("/login")
+            trackEvent('redirect_to_login', label);
             return
         }
+
+        trackEvent('module_selected', label);
 
         setFade(true)
         setTimeout(() => {
@@ -240,7 +304,28 @@ function MeterModule({ moduleType }) {
         }, 300) // duration for fade-out before switching
     }
 
+    // Replace the handleContinueClick function with this updated version
     const handleContinueClick = () => {
+        const nextModule = selectedModule + 1
+        const label = `${moduleType} - Module ${nextModule}`;
+
+
+        // Check if the next video is in the free videos list for this module type
+        const isNextVideoFree = freeVideos[moduleType]?.includes(nextModule)
+
+        // If next video is not free and user is not authenticated, redirect to login
+        if (!isNextVideoFree && !isAuthenticated) {
+            trackEvent('locked_module_attempted', label);
+            // Redirect to login page
+            navigate("/login")
+            trackEvent('redirect_to_login', label);
+            return
+        }
+        trackEvent('continue_clicked', label);
+        handleModuleChange(nextModule)
+    }
+
+    const handleContinueClickOld = () => {
         // Check if user is trying to access videos beyond the first one
         if (selectedModule === 1 && !isAuthenticated) {
             // Redirect to login page
@@ -252,6 +337,11 @@ function MeterModule({ moduleType }) {
     }
 
     const toggleLectureSheets = () => {
+        trackEvent(
+            showLectureSheets ? 'hide_lecture_materials' : 'show_lecture_materials',
+            `${moduleType} - Module ${selectedModule}`
+        );
+
         setShowLectureSheets((prev) => !prev)
     }
 
@@ -263,7 +353,8 @@ function MeterModule({ moduleType }) {
                 <div className="welcome-section-video">
                     <h2>Your Poetry Journey Begins Here</h2>
                     <p className="welcome-text">
-                        Discover the hidden structures that have powered poetry for centuries, with gentle guidance from Annie
+                        Discover the hidden structures that have powered poetry for centuries, with gentle guidance from
+                        Annie
                         Finch.
                     </p>
                 </div>
@@ -271,50 +362,81 @@ function MeterModule({ moduleType }) {
                 {isMobile && (
                     <button
                         className="toggle-module-list"
-                        onClick={() => setShowModuleList((prev) => !prev)}
+                        onClick={() => {
+                            trackEvent('mobile_module_toggle', `now ${!showModuleList ? 'open' : 'collapsed'}`);
+                            setShowModuleList((prev) => !prev);
+                        }}
+
                     >
                         {showModuleList ? "Hide Lessons ▲" : "Show Lessons ▼"}
                     </button>
                 )}
 
+                {/*<div className={`module-list ${isMobile && !showModuleList ? "collapsed" : ""}`}>*/}
+                {/*    {Object.keys(data.videoSources).map((module) => (*/}
+                {/*        <button*/}
+                {/*            key={module}*/}
+                {/*            className={`module-button ${selectedModule === Number(module) ? "active" : ""} ${Number(module) > 1 && !isAuthenticated ? "locked" : ""}`}*/}
+                {/*            onClick={() => handleModuleChange(Number(module))}*/}
+                {/*            title={`Select module ${module}: ${data.questions[Number(module)]} ${Number(module) > 1 && !isAuthenticated ? "(Login required)" : ""}`}*/}
+                {/*        >*/}
+                {/*            <div className="module-text">*/}
+                {/*                <span className="module-title">{data.questions[Number(module)]}</span>*/}
+                {/*                {Number(module) > 1 && !isAuthenticated && (*/}
+                {/*                    <span className="lock-icon" aria-label="Login required">🔒</span>*/}
+                {/*                )}*/}
+                {/*            </div>*/}
+                {/*        </button>*/}
+                {/*    ))}*/}
+                {/*</div>*/}
+
                 <div className={`module-list ${isMobile && !showModuleList ? "collapsed" : ""}`}>
-                    {Object.keys(data.videoSources).map((module) => (
-                        <button
-                            key={module}
-                            className={`module-button ${selectedModule === Number(module) ? "active" : ""} ${Number(module) > 1 && !isAuthenticated ? "locked" : ""}`}
-                            onClick={() => handleModuleChange(Number(module))}
-                            title={`Select module ${module}: ${data.questions[Number(module)]} ${Number(module) > 1 && !isAuthenticated ? "(Login required)" : ""}`}
-                        >
-                            <div className="module-text">
-                                <span className="module-title">{data.questions[Number(module)]}</span>
-                                {Number(module) > 1 && !isAuthenticated && (
-                                    <span className="lock-icon" aria-label="Login required">🔒</span>
-                                )}
-                            </div>
-                        </button>
-                    ))}
+                    {Object.keys(data.videoSources).map((module) => {
+                        const moduleNum = Number(module)
+                        const isVideoFree = freeVideos[moduleType]?.includes(moduleNum)
+                        const requiresLogin = !isVideoFree && !isAuthenticated
+
+                        return (
+                            <button
+                                key={module}
+                                className={`module-button ${selectedModule === moduleNum ? "active" : ""} ${requiresLogin ? "locked" : ""}`}
+                                onClick={() => handleModuleChange(moduleNum)}
+                                title={`Select module ${module}: ${data.questions[moduleNum]} ${requiresLogin ? "(Login required)" : ""}`}
+                            >
+                                <div className="module-text">
+                                    <span className="module-title">{data.questions[moduleNum]}</span>
+                                    {requiresLogin && (
+                                        <span className="lock-icon" aria-label="Login required">
+                      🔒
+                    </span>
+                                    )}
+                                </div>
+                            </button>
+                        )
+                    })}
                 </div>
 
 
                 {/* Enhanced Tool Section with more prominence */}
                 {!isMobile && (<div className="tool-section">
-                    <h3 className="tools-header">Craft Companions</h3>
-                    <Link to="/stress-checker" className="tool-button" title="Check the meter of your words">
-                        {/*<span className="tool-icon" aria-hidden="true">📝</span>*/}
-                        Check Word Meter
-                    </Link>
-                    <a
-                        href="https://www.classes.anniefinch.com/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="tool-button"
-                        title="Join Annie's Online Classes"
-                    >
-                        {/*<span className="tool-icon" aria-hidden="true">🎓</span>*/}
-                        Annie's Online Classes
-                    </a>
-                </div>
-                    )}
+                        <h3 className="tools-header">Craft Companions</h3>
+                        <Link to="/stress-checker" onClick={() => trackEvent('tool_link_clicked', 'Check Word Meter')} className="tool-button" title="Check the meter of your words">
+                            {/*<span className="tool-icon" aria-hidden="true">📝</span>*/}
+                            Check Word Meter
+                        </Link>
+                        <a
+                            href="https://www.classes.anniefinch.com/"
+                            onClick={() => trackEvent('tool_link_clicked', 'Annie’s Online Classes')}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="tool-button"
+                            title="Join Annie's Online Classes"
+                        >
+                            {/*<span className="tool-icon" aria-hidden="true">🎓</span>*/}
+                            Annie's Online Classes
+                        </a>
+                    </div>
+                )}
 
             </div>
 
@@ -327,19 +449,19 @@ function MeterModule({ moduleType }) {
                     <h1>{data.questions[selectedModule]}</h1>
                     <p className="instructor-note">with Annie Finch, award-winning poet & mentor</p>
                     <div className="progress-bar" aria-label="Module progress">
-                        <div className="progress" style={{ width: `${progressPercentage}%` }}></div>
+                        <div className="progress" style={{width: `${progressPercentage}%`}}></div>
                     </div>
                 </div>
 
                 {showSignupPrompt ? (
-                    <PoetcraftPromo />
+                    <PoetcraftPromo/>
                 ) : (
                     <>
                         <div className={`video-container ${fade ? "fade-out" : "fade-in"}`}>
                             {videoError ? (
                                 <div className="video-error" role="alert">
                                     <div className="error-message">
-                                        <h3>A gentle interruption</h3>
+                                    <h3>A gentle interruption</h3>
                                         <p>
                                             We're having trouble playing this video. Like a poem that needs revision, let's try again soon.
                                         </p>
@@ -348,7 +470,7 @@ function MeterModule({ moduleType }) {
                                         </button>
                                     </div>
                                 </div>
-                            ) : selectedModule > 1 && !isAuthenticated ? (
+                            ) : !freeVideos[moduleType]?.includes(selectedModule) && !isAuthenticated ? (
                                 <div className="login-required-message">
                                     <h3>Login Required</h3>
                                     <p>Please log in to access the rest of the poetry lessons.</p>
@@ -361,7 +483,7 @@ function MeterModule({ moduleType }) {
                                     <iframe
                                         width="100%"
                                         height="500"
-                                        src={`https://www.youtube.com/embed/${data.videoSources[selectedModule]}?cc_load_policy=0`}
+                                        src={`https://www.youtube.com/embed/${data.videoSources[selectedModule]}?cc_load_policy=0&enablejsapi=1`}
                                         title="YouTube video player"
                                         frameBorder="0"
                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -410,7 +532,10 @@ function MeterModule({ moduleType }) {
                         <div className="module-controls">
                             <button
                                 className="control-button previous"
-                                onClick={() => handleModuleChange(selectedModule - 1)}
+                                onClick={() => {
+                                    trackEvent('previous_clicked', `${moduleType} - Module ${selectedModule - 1}`);
+                                    handleModuleChange(selectedModule - 1);
+                                }}
                                 disabled={selectedModule === 1}
                                 title="Go to previous lesson"
                             >
@@ -465,7 +590,11 @@ function MeterModule({ moduleType }) {
                                                 ></iframe>
                                                 <button
                                                     className="control-button"
-                                                    onClick={() => window.open(sheet.pdf, "_blank")}
+                                                    onClick={() => {
+                                                        trackEvent('pdf_downloaded', sheet.title);
+                                                        window.open(sheet.pdf, "_blank");
+                                                    }}
+
                                                     title={`Download PDF for ${sheet.title}`}
                                                 >
                                                     Download PDF
