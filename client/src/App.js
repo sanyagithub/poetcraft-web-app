@@ -18,6 +18,8 @@ import AnapesticMeter from "./components/AnapesticMeter";
 import IambicMeter from "./components/IambicMeter";
 import TrochaicMeter from "./components/TrochaicMeter";
 import DactylicMeter from "./components/DactylicMeter";
+import TapMeterGame from "./components/TapMeterGame";
+import PaymentPage from "./components/PaymentPage";
 
 // ProtectedRoute component
 function ProtectedRoute({ children }) {
@@ -49,6 +51,8 @@ function App() {
                     <Route path="/iambic-meter" element={<IambicMeter />} />
                     <Route path="/trochaic-meter" element={<TrochaicMeter />} />
                     <Route path="/dactylic-meter" element={<DactylicMeter />} />
+                    <Route path="/paymentpage" element={<PaymentPage />} />
+
                     {/* Protected routes for authenticated users */}
                     <Route
                         path="/module/:lessonId"

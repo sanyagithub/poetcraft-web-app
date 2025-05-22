@@ -7,6 +7,7 @@ const cors = require("cors");
 const authRoutes = require("./routes/auth");
 const answerRoutes = require("./routes/answers");
 const stressCheckRoutes = require('./routes/stressCheck');
+const paymentRoutes = require('./routes/payment');
 
 require('dotenv').config();
 
@@ -51,6 +52,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 app.use("/api/auth", authRoutes);
 app.use("/api/answers", answerRoutes);
 app.use('/api/stress-check', stressCheckRoutes);
+app.use("api/payment", paymentRoutes)
 
 // Error handling middleware
 app.use((err, req, res, next) => {
