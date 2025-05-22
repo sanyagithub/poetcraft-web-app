@@ -7,7 +7,7 @@ const Payment = require("../models/Payment")
 const User = require("../models/User")
 
 // Handle payment success and store payment details
-router.post("/payment/payment-success", async (req, res) => {
+router.post("/payment-success", async (req, res) => {
     try {
         const { customerName, customerEmail, purchasedItems, totalAmount, orderId, discountApplied = 0 } = req.body
 
