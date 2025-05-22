@@ -52,7 +52,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 app.use("/api/auth", authRoutes);
 app.use("/api/answers", answerRoutes);
 app.use('/api/stress-check', stressCheckRoutes);
-app.use("api/payment", paymentRoutes)
+app.use("/api/payment", paymentRoutes)
 
 // Error handling middleware
 app.use((err, req, res, next) => {

@@ -13,7 +13,7 @@ root.render(
     <React.StrictMode>
         <PayPalScriptProvider
             options={{
-                "client-id": SANDBOX_PAYPAL_CLIENT_ID,
+                "client-id": PAYPAL_CLIENT_ID,
                 currency: "USD",
             }}
         >
