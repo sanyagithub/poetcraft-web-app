@@ -1,0 +1,259 @@
+/* Success page specific styles */
+.success-section {
+    width: 100%;
+    max-width: 800px;
+}
+
+.success-card {
+    background-color: #f8f0f8;
+    padding: 40px;
+    border-radius: 15px;
+    position: relative;
+    box-shadow: 0 5px 20px rgba(179, 87, 195, 0.1);
+}
+
+.success-icon {
+    width: 80px;
+    height: 80px;
+    background-color: #efc4ea;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    color: #b357c3;
+}
+
+.success-title {
+    font-size: 2.4rem;
+    color: #b357c3;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.success-message {
+    font-size: 1.2rem;
+    color: #3a5683;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.order-details {
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+
+.order-details h3 {
+    font-size: 1.6rem;
+    color: #b357c3;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.order-items {
+    margin-bottom: 20px;
+}
+
+.order-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #efc4ea;
+}
+
+.item-name {
+    font-size: 1.1rem;
+    color: #3a5683;
+}
+
+.item-price {
+    font-size: 1.1rem;
+    color: #3a5683;
+    font-weight: bold;
+}
+
+.order-total {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+    border-top: 2px solid #efc4ea;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #b357c3;
+}
+
+.order-id {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 15px;
+}
+
+.next-steps {
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+
+.next-steps h3 {
+    font-size: 1.6rem;
+    color: #b357c3;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.next-steps-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.next-step {
+    display: flex;
+    gap: 15px;
+}
+
+.step-icon {
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+    background-color: #efc4ea;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #b357c3;
+}
+
+.step-content h4 {
+    font-size: 1.2rem;
+    color: #b357c3;
+    margin-bottom: 8px;
+}
+
+.step-content p {
+    font-size: 1rem;
+    color: #3a5683;
+    line-height: 1.5;
+}
+
+.contact-info {
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.contact-info h3 {
+    font-size: 1.6rem;
+    color: #b357c3;
+    margin-bottom: 15px;
+}
+
+.contact-info p {
+    font-size: 1.1rem;
+    color: #3a5683;
+}
+
+.contact-info a {
+    color: #b357c3;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.contact-info a:hover {
+    text-decoration: underline;
+}
+
+.return-button {
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+    padding: 15px 25px;
+    background-color: #b357c3;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.return-button:hover {
+    background-color: #9d3dab;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(179, 87, 195, 0.3);
+}
+
+.processing-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+    padding: 15px;
+    background-color: rgba(179, 87, 195, 0.1);
+    border-radius: 10px;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(179, 87, 195, 0.1);
+    border-radius: 50%;
+    border-top-color: #b357c3;
+    animation: spin 1s ease-in-out infinite;
+    margin-bottom: 10px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.processing-message p {
+    color: #b357c3;
+    font-size: 1.1rem;
+}
+
+.error-container {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: rgba(244, 67, 54, 0.1);
+    border: 1px solid rgba(244, 67, 54, 0.3);
+    border-radius: 10px;
+}
+
+.error-message {
+    color: #f44336;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .success-card {
+        padding: 30px 20px;
+    }
+
+    .success-title {
+        font-size: 2rem;
+    }
+
+    .next-step {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .step-icon {
+        margin-bottom: 10px;
+    }
+}
