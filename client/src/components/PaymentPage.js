@@ -46,8 +46,9 @@ const PaymentPage = () => {
     const savePaymentToDatabase = async (paymentData) => {
         try {
             setIsProcessing(true)
+            console.log(paymentData)
 
-            const response = await fetch("/api/payment-success", {
+            const response = await fetch("/api/payment/payment-success", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
