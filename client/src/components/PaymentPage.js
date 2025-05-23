@@ -148,7 +148,6 @@ const PaymentPage = () => {
             <div className="content-wrapper">
                 <header className="landing-header">
                     <h1 className="brand-title">Poetcraft</h1>
-                    <p className="expert-credit">Master the Art of Poetry</p>
                 </header>
 
                 <main className="landing-main">
