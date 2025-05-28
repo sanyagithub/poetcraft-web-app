@@ -325,14 +325,14 @@ function MeterModule({ moduleType }) {
                         Discover the hidden structures that have powered poetry for centuries, with gentle guidance from Annie
                         Finch.
                     </p>
-                    {isAuthenticated && (
-                        <div className="access-info">
-                            <p className="access-level">
-                                Welcome {username}! You have access to {userAccessLevel} of {Object.keys(data.videoSources).length}{" "}
-                                lessons in this module
-                            </p>
-                        </div>
-                    )}
+                    {/*{isAuthenticated && (*/}
+                    {/*    <div className="access-info">*/}
+                    {/*        <p className="access-level">*/}
+                    {/*            Welcome {username}! You have access to {userAccessLevel} of {Object.keys(data.videoSources).length}{" "}*/}
+                    {/*            lessons in this module*/}
+                    {/*        </p>*/}
+                    {/*    </div>*/}
+                    {/*)}*/}
                 </div>
 
                 {isMobile && (
@@ -402,9 +402,9 @@ function MeterModule({ moduleType }) {
                 <div className="content-header">
                     <h1>{data.questions[selectedModule]}</h1>
                     <p className="instructor-note">with Annie Finch, award-winning poet & mentor</p>
-                    <div className="progress-bar" aria-label="Module progress">
-                        <div className="progress" style={{ width: `${progressPercentage}%` }}></div>
-                    </div>
+                    {/*<div className="progress-bar" aria-label="Module progress">*/}
+                    {/*    <div className="progress" style={{ width: `${progressPercentage}%` }}></div>*/}
+                    {/*</div>*/}
                 </div>
 
                 <div className={`video-container ${fade ? "fade-out" : "fade-in"}`}>
