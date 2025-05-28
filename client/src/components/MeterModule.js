@@ -1,10 +1,10 @@
 "use client"
 
-import {useEffect, useState} from "react"
+import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { useAuth } from "../authContext"
-import PoetcraftPromo from "./PoetcraftPromo"
 import "./style/VideoModule.css"
+import { canUserAccessLesson, getUserAccessLevel } from "./user-access-config"
 
 // Define the module data for each type
 const moduleData = {
@@ -192,34 +192,24 @@ const moduleData = {
     },
 }
 
-// Add this configuration object at the top of the file, after the moduleData declaration
-const freeVideos = {
-    video: [1, 2],
-    iambic: [1],
-    anapestic: [1],
-    trochaic: [3],
-    dactylic: [2],
-}
-
-const trackEvent = (name, label, category = 'meter_module') => {
+const trackEvent = (name, label, category = "meter_module") => {
     if (window.gtag) {
-        window.gtag('event', name, {
+        window.gtag("event", name, {
             event_category: category,
             event_label: label,
-        });
+        })
     }
-};
-
+}
 
 function MeterModule({ moduleType }) {
     const data = moduleData[moduleType]
-    const { isAuthenticated } = useAuth()
+    const { isAuthenticated, username } = useAuth() // Using your auth context structure
     const navigate = useNavigate()
 
     const [selectedModule, setSelectedModule] = useState(1)
     const [videoError, setVideoError] = useState(false)
     const [showLectureSheets, setShowLectureSheets] = useState(false)
-    const [fade, setFade] = useState(false) // to trigger fade-out/fade-in effect
+    const [fade, setFade] = useState(false)
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
     const [showModuleList, setShowModuleList] = useState(false)
 
@@ -235,15 +225,14 @@ function MeterModule({ moduleType }) {
         }
     }, [])
 
-
     useEffect(() => {
         window.onYouTubeIframeAPIReady = () => {
             const player = new window.YT.Player(`youtube-player`, {
                 events: {
                     onStateChange: (event) => {
                         if (event.data === window.YT.PlayerState.PLAYING) {
-                            window.gtag('event', 'video_played', {
-                                event_category: 'video',
+                            window.gtag("event", "video_played", {
+                                event_category: "video",
                                 event_label: `${moduleType} - ${selectedModule}`,
                             })
                         }
@@ -253,98 +242,79 @@ function MeterModule({ moduleType }) {
         }
     }, [selectedModule, moduleType])
 
-
-
     useEffect(() => {
-        if (!isAuthenticated) {
-            setSelectedModule(freeVideos[moduleType][0])
+        // Set initial module to first accessible lesson
+        if (!canUserAccessLesson(username, moduleType, selectedModule, isAuthenticated)) {
+            setSelectedModule(1) // Always start with lesson 1
         }
-    }, [moduleType, isAuthenticated])
+    }, [moduleType, isAuthenticated, username])
 
     useEffect(() => {
         const handleResize = () => {
             const mobile = window.innerWidth <= 768
             setIsMobile(mobile)
-            if (!mobile) setShowModuleList(true) // Always show on desktop
+            if (!mobile) setShowModuleList(true)
         }
 
         window.addEventListener("resize", handleResize)
-
-        // Run once on mount to set correct state
         handleResize()
 
         return () => window.removeEventListener("resize", handleResize)
     }, [])
 
-
-    // Handle module change with a poetic fade transition
+    // Handle module change with access control
     const handleModuleChange = (moduleNumber) => {
         if (moduleNumber < 1 || moduleNumber > Object.keys(data.videoSources).length) return
-        const label = `${moduleType} - Module ${moduleNumber}`;
 
-        // Check if the selected video is in the free videos list for this module type
-        const isVideoFree = freeVideos[moduleType]?.includes(moduleNumber)
+        const label = `${moduleType} - Module ${moduleNumber}`
 
-        // If video is not free and user is not authenticated, redirect to login
-        if (!isVideoFree && !isAuthenticated) {
-            trackEvent('locked_module_attempted', label);
-            // Redirect to login page
+        // Check if user can access this lesson
+        if (!canUserAccessLesson(username, moduleType, moduleNumber, isAuthenticated)) {
+            trackEvent("locked_module_attempted", label)
+            // Redirect to login page or show upgrade message
             navigate("/login")
-            trackEvent('redirect_to_login', label);
+            trackEvent("redirect_to_login", label)
             return
         }
 
-        trackEvent('module_selected', label);
+        trackEvent("module_selected", label)
 
         setFade(true)
         setTimeout(() => {
             setSelectedModule(moduleNumber)
             setFade(false)
-        }, 300) // duration for fade-out before switching
+        }, 300)
     }
 
-    // Replace the handleContinueClick function with this updated version
     const handleContinueClick = () => {
         const nextModule = selectedModule + 1
-        const label = `${moduleType} - Module ${nextModule}`;
+        const label = `${moduleType} - Module ${nextModule}`
 
-
-        // Check if the next video is in the free videos list for this module type
-        const isNextVideoFree = freeVideos[moduleType]?.includes(nextModule)
-
-        // If next video is not free and user is not authenticated, redirect to login
-        if (!isNextVideoFree && !isAuthenticated) {
-            trackEvent('locked_module_attempted', label);
-            // Redirect to login page
+        // Check if user can access the next lesson
+        if (!canUserAccessLesson(username, moduleType, nextModule, isAuthenticated)) {
+            trackEvent("locked_module_attempted", label)
             navigate("/login")
-            trackEvent('redirect_to_login', label);
+            trackEvent("redirect_to_login", label)
             return
         }
-        trackEvent('continue_clicked', label);
+
+        trackEvent("continue_clicked", label)
         handleModuleChange(nextModule)
-    }
-
-    const handleContinueClickOld = () => {
-        // Check if user is trying to access videos beyond the first one
-        if (selectedModule === 1 && !isAuthenticated) {
-            // Redirect to login page
-            navigate("/login")
-            return
-        }
-
-        handleModuleChange(selectedModule + 1)
     }
 
     const toggleLectureSheets = () => {
         trackEvent(
-            showLectureSheets ? 'hide_lecture_materials' : 'show_lecture_materials',
-            `${moduleType} - Module ${selectedModule}`
-        );
+            showLectureSheets ? "hide_lecture_materials" : "show_lecture_materials",
+            `${moduleType} - Module ${selectedModule}`,
+        )
 
         setShowLectureSheets((prev) => !prev)
     }
 
     const progressPercentage = (selectedModule / Object.keys(data.videoSources).length) * 100
+
+    // Get user's access level for progress indication
+    const userAccessLevel = getUserAccessLevel(username, moduleType, isAuthenticated)
 
     return (
         <div className={`module-container theme-${data.theme}`} role="main">
@@ -352,60 +322,48 @@ function MeterModule({ moduleType }) {
                 <div className="welcome-section-video">
                     <h2>Your Poetry Journey Begins Here</h2>
                     <p className="welcome-text">
-                        Discover the hidden structures that have powered poetry for centuries, with gentle guidance from
-                        Annie
+                        Discover the hidden structures that have powered poetry for centuries, with gentle guidance from Annie
                         Finch.
                     </p>
+                    {isAuthenticated && (
+                        <div className="access-info">
+                            <p className="access-level">
+                                Welcome {username}! You have access to {userAccessLevel} of {Object.keys(data.videoSources).length}{" "}
+                                lessons in this module
+                            </p>
+                        </div>
+                    )}
                 </div>
 
                 {isMobile && (
                     <button
                         className="toggle-module-list"
                         onClick={() => {
-                            trackEvent('mobile_module_toggle', `now ${!showModuleList ? 'open' : 'collapsed'}`);
-                            setShowModuleList((prev) => !prev);
+                            trackEvent("mobile_module_toggle", `now ${!showModuleList ? "open" : "collapsed"}`)
+                            setShowModuleList((prev) => !prev)
                         }}
-
                     >
                         {showModuleList ? "Hide Lessons ▲" : "Show Lessons ▼"}
                     </button>
                 )}
 
-                {/*<div className={`module-list ${isMobile && !showModuleList ? "collapsed" : ""}`}>*/}
-                {/*    {Object.keys(data.videoSources).map((module) => (*/}
-                {/*        <button*/}
-                {/*            key={module}*/}
-                {/*            className={`module-button ${selectedModule === Number(module) ? "active" : ""} ${Number(module) > 1 && !isAuthenticated ? "locked" : ""}`}*/}
-                {/*            onClick={() => handleModuleChange(Number(module))}*/}
-                {/*            title={`Select module ${module}: ${data.questions[Number(module)]} ${Number(module) > 1 && !isAuthenticated ? "(Login required)" : ""}`}*/}
-                {/*        >*/}
-                {/*            <div className="module-text">*/}
-                {/*                <span className="module-title">{data.questions[Number(module)]}</span>*/}
-                {/*                {Number(module) > 1 && !isAuthenticated && (*/}
-                {/*                    <span className="lock-icon" aria-label="Login required">🔒</span>*/}
-                {/*                )}*/}
-                {/*            </div>*/}
-                {/*        </button>*/}
-                {/*    ))}*/}
-                {/*</div>*/}
-
                 <div className={`module-list ${isMobile && !showModuleList ? "collapsed" : ""}`}>
                     {Object.keys(data.videoSources).map((module) => {
                         const moduleNum = Number(module)
-                        const isVideoFree = freeVideos[moduleType]?.includes(moduleNum)
-                        const requiresLogin = !isVideoFree && !isAuthenticated
+                        const hasAccess = canUserAccessLesson(username, moduleType, moduleNum, isAuthenticated)
+                        const requiresUpgrade = !hasAccess
 
                         return (
                             <button
                                 key={module}
-                                className={`module-button ${selectedModule === moduleNum ? "active" : ""} ${requiresLogin ? "locked" : ""}`}
+                                className={`module-button ${selectedModule === moduleNum ? "active" : ""} ${requiresUpgrade ? "locked" : ""}`}
                                 onClick={() => handleModuleChange(moduleNum)}
-                                title={`Select module ${module}: ${data.questions[moduleNum]} ${requiresLogin ? "(Login required)" : ""}`}
+                                title={`Select module ${module}: ${data.questions[moduleNum]} ${requiresUpgrade ? "(Upgrade required)" : ""}`}
                             >
                                 <div className="module-text">
                                     <span className="module-title">{data.questions[moduleNum]}</span>
-                                    {requiresLogin && (
-                                        <span className="lock-icon" aria-label="Login required">
+                                    {requiresUpgrade && (
+                                        <span className="lock-icon" aria-label="Upgrade required">
                       🔒
                     </span>
                                     )}
@@ -415,195 +373,151 @@ function MeterModule({ moduleType }) {
                     })}
                 </div>
 
-
-                {/* Enhanced Tool Section with more prominence */}
-                {!isMobile && (<div className="tool-section">
+                {!isMobile && (
+                    <div className="tool-section">
                         <h3 className="tools-header">Craft Companions</h3>
-                        <Link to="/stress-checker" onClick={() => trackEvent('tool_link_clicked', 'Check Word Meter')} className="tool-button" title="Check the meter of your words">
-                            {/*<span className="tool-icon" aria-hidden="true">📝</span>*/}
+                        <Link
+                            to="/stress-checker"
+                            onClick={() => trackEvent("tool_link_clicked", "Check Word Meter")}
+                            className="tool-button"
+                            title="Check the meter of your words"
+                        >
                             Check Word Meter
                         </Link>
                         <a
                             href="https://www.classes.anniefinch.com/"
-                            onClick={() => trackEvent('tool_link_clicked', 'Annie’s Online Classes')}
+                            onClick={() => trackEvent("tool_link_clicked", "Annie's Online Classes")}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="tool-button"
                             title="Join Annie's Online Classes"
                         >
-                            {/*<span className="tool-icon" aria-hidden="true">🎓</span>*/}
                             Annie's Online Classes
                         </a>
                     </div>
                 )}
-
             </div>
 
             <div className="module-content">
                 <div className="content-header">
-                    {/* Back to Lessons link integrated in header */}
-                    {/*<Link to="/moduleslist" className="back-link">*/}
-                    {/*    <span className="back-icon">←</span>*/}
-                    {/*</Link>*/}
                     <h1>{data.questions[selectedModule]}</h1>
                     <p className="instructor-note">with Annie Finch, award-winning poet & mentor</p>
                     <div className="progress-bar" aria-label="Module progress">
-                        <div className="progress" style={{width: `${progressPercentage}%`}}></div>
+                        <div className="progress" style={{ width: `${progressPercentage}%` }}></div>
                     </div>
                 </div>
 
+                <div className={`video-container ${fade ? "fade-out" : "fade-in"}`}>
+                    {videoError ? (
+                        <div className="video-error" role="alert">
+                            <div className="error-message">
+                                <h3>A gentle interruption</h3>
+                                <p>We're having trouble playing this video. Like a poem that needs revision, let's try again soon.</p>
+                                <button onClick={() => setVideoError(false)} title="Retry playing the video">
+                                    Try Again
+                                </button>
+                            </div>
+                        </div>
+                    ) : !canUserAccessLesson(username, moduleType, selectedModule, isAuthenticated) ? (
+                        <div className="login-required-message">
+                            <h3>{isAuthenticated ? "Upgrade Required" : "Login Required"}</h3>
+                            <p>
+                                {isAuthenticated
+                                    ? "Please upgrade your subscription to access more poetry lessons."
+                                    : "Please log in to access the rest of the poetry lessons."}
+                            </p>
+                            <Link to="/login" className="login-button">
+                                {isAuthenticated ? "Upgrade Subscription" : "Log In to Continue"}
+                            </Link>
+                        </div>
+                    ) : (
+                        <div className="video-player" role="region" aria-label="Video lesson">
+                            <iframe
+                                width="100%"
+                                height="500"
+                                src={`https://www.youtube.com/embed/${data.videoSources[selectedModule]}?cc_load_policy=0&enablejsapi=1`}
+                                title="YouTube video player"
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowFullScreen
+                            ></iframe>
+                        </div>
+                    )}
+                </div>
 
-                <>
-                        <div className={`video-container ${fade ? "fade-out" : "fade-in"}`}>
-                            {videoError ? (
-                                <div className="video-error" role="alert">
-                                    <div className="error-message">
-                                    <h3>A gentle interruption</h3>
-                                        <p>
-                                            We're having trouble playing this video. Like a poem that needs revision, let's try again soon.
-                                        </p>
-                                        <button onClick={() => setVideoError(false)} title="Retry playing the video">
-                                            Try Again
+                <div className="module-controls">
+                    <button
+                        className="control-button previous"
+                        onClick={() => {
+                            trackEvent("previous_clicked", `${moduleType} - Module ${selectedModule - 1}`)
+                            handleModuleChange(selectedModule - 1)
+                        }}
+                        disabled={selectedModule === 1}
+                        title="Go to previous lesson"
+                    >
+            <span className="button-icon" aria-hidden="true">
+              ←
+            </span>
+                        Previous Lesson
+                    </button>
+                    {isAuthenticated && (
+                        <button
+                            className={`control-button ${showLectureSheets ? "primary" : ""}`}
+                            onClick={toggleLectureSheets}
+                            title={showLectureSheets ? "Hide the lecture materials" : "View lecture materials"}
+                        >
+                            {showLectureSheets ? "Hide Lecture Materials" : "View Lecture Materials"}
+                        </button>
+                    )}
+                    <button
+                        className="control-button next"
+                        onClick={handleContinueClick}
+                        disabled={selectedModule === Object.keys(data.videoSources).length}
+                        title="Proceed to next lesson"
+                    >
+                        Next Lesson
+                        <span className="button-icon" aria-hidden="true">
+              →
+            </span>
+                    </button>
+                </div>
+
+                {showLectureSheets && (
+                    <div className="module-notes slide-toggle">
+                        <h3>Lecture Materials</h3>
+                        <p className="notes-description">
+                            These supporting materials will help deepen your understanding of this lesson's concepts.
+                        </p>
+
+                        <div className="lecture-sheets-container">
+                            {data.lectureSheets.map((sheet, index) => (
+                                <div key={index} className="lecture-sheet-item">
+                                    <div className="lecture-sheet-header">
+                                        <h4>{sheet.title}</h4>
+                                    </div>
+                                    <div className="pdf-embed">
+                                        <iframe
+                                            src={`${sheet.pdf}#toolbar=0&navpanes=0`}
+                                            width="100%"
+                                            height="480px"
+                                            title={`Lecture Sheet: ${sheet.title}`}
+                                        ></iframe>
+                                        <button
+                                            className="control-button"
+                                            onClick={() => {
+                                                trackEvent("pdf_downloaded", sheet.title)
+                                                window.open(sheet.pdf, "_blank")
+                                            }}
+                                            title={`Download PDF for ${sheet.title}`}
+                                        >
+                                            Download PDF
                                         </button>
                                     </div>
                                 </div>
-                            ) : !freeVideos[moduleType]?.includes(selectedModule) && !isAuthenticated ? (
-                                <div className="login-required-message">
-                                    <h3>Login Required</h3>
-                                    <p>Please log in to access the rest of the poetry lessons.</p>
-                                    <Link to="/login" className="login-button">
-                                        Log In to Continue
-                                    </Link>
-                                </div>
-                            ) : (
-                                <div className="video-player" role="region" aria-label="Video lesson">
-                                    <iframe
-                                        width="100%"
-                                        height="500"
-                                        src={`https://www.youtube.com/embed/${data.videoSources[selectedModule]}?cc_load_policy=0&enablejsapi=1`}
-                                        title="YouTube video player"
-                                        frameBorder="0"
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                        allowFullScreen>
-                                    </iframe>
-                                    {/*<video*/}
-                                    {/*    key={selectedModule}*/}
-                                    {/*    controls*/}
-                                    {/*    onError={() => setVideoError(true)}*/}
-                                    {/*    controlsList="nodownload"*/}
-                                    {/*    playsInline*/}
-                                    {/*    preload="metadata"*/}
-                                    {/*    className="fade-in"*/}
-                                    {/*    aria-label="Lesson video"*/}
-                                    {/*>*/}
-                                    {/*    <source src={data.videoSources[selectedModule]} type="video/mp4" />*/}
-                                    {/*    Your browser does not support the video tag.*/}
-                                    {/*</video>*/}
-                                </div>
-                            )}
+                            ))}
                         </div>
-
-
-                        {/*/!* Add Quick Access Tools banner *!/*/}
-                        {/*<div className="quick-access-tools">*/}
-                        {/*    <div className="tool-card">*/}
-                        {/*        <Link to="/stress-checker" className="quick-tool-link">*/}
-                        {/*            <span className="quick-tool-icon">📝</span>*/}
-                        {/*            <div className="quick-tool-info">*/}
-                        {/*                <h4>Check Word Stress</h4>*/}
-                        {/*                <p>Analyze the rhythm of your own poetry</p>*/}
-                        {/*            </div>*/}
-                        {/*        </Link>*/}
-                        {/*    </div>*/}
-                        {/*    <div className="tool-card">*/}
-                        {/*        <a href="https://www.classes.anniefinch.com/" target="_blank" rel="noopener noreferrer" className="quick-tool-link">*/}
-                        {/*            <span className="quick-tool-icon">🎓</span>*/}
-                        {/*            <div className="quick-tool-info">*/}
-                        {/*                <h4>Live Poetry Lessons</h4>*/}
-                        {/*                <p>Join Annie Finch's Online Classes</p>*/}
-                        {/*            </div>*/}
-                        {/*        </a>*/}
-                        {/*    </div>*/}
-                        {/*</div>*/}
-
-                        <div className="module-controls">
-                            <button
-                                className="control-button previous"
-                                onClick={() => {
-                                    trackEvent('previous_clicked', `${moduleType} - Module ${selectedModule - 1}`);
-                                    handleModuleChange(selectedModule - 1);
-                                }}
-                                disabled={selectedModule === 1}
-                                title="Go to previous lesson"
-                            >
-                <span className="button-icon" aria-hidden="true">
-                  ←
-                </span>
-                                Previous Lesson
-                            </button>
-                            {isAuthenticated && (
-                                <button
-                                    className={`control-button ${showLectureSheets ? "primary" : ""}`}
-                                    onClick={toggleLectureSheets}
-                                    title={showLectureSheets ? "Hide the lecture materials" : "View lecture materials"}
-                                >
-                                    {showLectureSheets ? "Hide Lecture Materials" : "View Lecture Materials"}
-                                </button>
-                            )}
-                            <button
-                                className="control-button next"
-                                onClick={handleContinueClick}
-                                disabled={selectedModule === Object.keys(data.videoSources).length}
-                                title="Proceed to next lesson"
-                            >
-                                Next Lesson
-                                <span className="button-icon" aria-hidden="true">
-                  →
-                </span>
-                            </button>
-                        </div>
-
-
-
-                        {showLectureSheets && (
-                            <div className="module-notes slide-toggle">
-                                <h3>Lecture Materials</h3>
-                                <p className="notes-description">
-                                    These supporting materials will help deepen your understanding of this lesson's concepts.
-                                </p>
-
-                                <div className="lecture-sheets-container">
-                                    {data.lectureSheets.map((sheet, index) => (
-                                        <div key={index} className="lecture-sheet-item">
-                                            <div className="lecture-sheet-header">
-                                                <h4>{sheet.title}</h4>
-                                            </div>
-                                            <div className="pdf-embed">
-                                                <iframe
-                                                    src={`${sheet.pdf}#toolbar=0&navpanes=0`}
-                                                    width="100%"
-                                                    height="480px"
-                                                    title={`Lecture Sheet: ${sheet.title}`}
-                                                ></iframe>
-                                                <button
-                                                    className="control-button"
-                                                    onClick={() => {
-                                                        trackEvent('pdf_downloaded', sheet.title);
-                                                        window.open(sheet.pdf, "_blank");
-                                                    }}
-
-                                                    title={`Download PDF for ${sheet.title}`}
-                                                >
-                                                    Download PDF
-                                                </button>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-                    </>
-
+                    </div>
+                )}
 
                 {isMobile && (
                     <div className="tool-section mobile-tool-section">
@@ -621,19 +535,11 @@ function MeterModule({ moduleType }) {
                         </a>
                     </div>
                 )}
-                {/* Add sticky navigation footer for mobile users with enhanced tools */}
+
                 <div className="mobile-nav-footer">
                     <Link to="/moduleslist" className="back-link mobile-back">
                         <span className="back-icon">←</span> Back to Lessons
                     </Link>
-                    {/*<div className="mobile-tools">*/}
-                    {/*    <Link to="/stress-checker" className="mobile-tool-button">*/}
-                    {/*        <span className="tool-icon">📝</span>*/}
-                    {/*    </Link>*/}
-                    {/*    <a href="https://www.classes.anniefinch.com/" target="_blank" rel="noopener noreferrer" className="mobile-tool-button">*/}
-                    {/*        <span className="tool-icon">🎓</span>*/}
-                    {/*    </a>*/}
-                    {/*</div>*/}
                 </div>
             </div>
         </div>
