@@ -26,7 +26,7 @@ app.use((req, res, next) => {
 
 // CORS middleware
 app.use(cors({
-    origin: ['http://localhost:3002', 'https://www.poetcraft.org', 'https://poetcraft.org'],
+    origin: ['http://localhost:3000', 'https://www.poetcraft.org', 'https://poetcraft.org'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
@@ -51,7 +51,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/answers", answerRoutes);
-app.use('/api/stress-check', stressCheckRoutes);
+app.use("/api/stress-check", stressCheckRoutes);
 app.use("/api/payment", paymentRoutes)
 
 // Error handling middleware

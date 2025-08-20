@@ -27,8 +27,10 @@ function StressChecker() {
     const fetchWordStress = async (retryCount = 0) => {
 
         try {
+            console.log("Fetching stress pattern for word:", word)
+            console.log(`Request URL: ${process.env.REACT_APP_BACKEND_URL}/api/stress-check/${encodeURIComponent(word.toLowerCase().trim())}`)
             const response = await axios.get(
-                `https://api.poetcraft.org/api/stress-check/${encodeURIComponent(word.toLowerCase().trim())}`,
+                `${process.env.REACT_APP_BACKEND_URL}/api/stress-check/${encodeURIComponent(word.toLowerCase().trim())}`,
             )
 
             console.log(response.data);

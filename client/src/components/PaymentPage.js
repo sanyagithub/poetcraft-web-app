@@ -48,7 +48,7 @@ const PaymentPage = () => {
             setIsProcessing(true)
             console.log(paymentData)
 
-            const response = await fetch("https://api.poetcraft.org/api/payment/payment-success", {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/payment/payment-success`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
