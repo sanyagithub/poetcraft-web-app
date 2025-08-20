@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Link, useLocation, useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import "./style/auth.css";
 import {useAuth} from "../authContext";
 import axios from "axios";
@@ -42,7 +42,7 @@ function Login() {
         setError("");
 
         try {
-            const response = await axios.post("https://api.poetcraft.org/api/auth/login", {
+            const response = await axios.post("http://localhost:5002/api/auth/login", {
                 username: formData.username,
                 password: formData.password,
             });
